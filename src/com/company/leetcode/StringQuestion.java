@@ -112,4 +112,33 @@ public class StringQuestion {
             return false;
         }
     }
+
+    //647. 回文子串
+    public int countSubstrings(String s) {
+        int res = 0;
+        for(int i = 0; i < s.length(); i++){
+            res += countLongestSingleMid(s, i);
+            res += countLongestDoubleMid(s, i);
+        }
+        return res;
+    }
+
+    public int countLongestSingleMid(String s, int pos){
+        int res = 1;
+        while(pos - res >= 0 && pos + res < s.length() && s.charAt(pos - res) == s.charAt(pos + res)){
+            res ++;
+        }
+        return res;
+    }
+
+    public int countLongestDoubleMid(String s, int pos){
+        if (pos + 1 >= s.length() || s.charAt(pos) != s.charAt(pos + 1)){
+            return 0;
+        }
+        int res = 1;
+        while(pos - res >= 0 && pos + res + 1 < s.length() && s.charAt(pos - res) == s.charAt(pos + res + 1)){
+            res ++;
+        }
+        return res;
+    }
 }

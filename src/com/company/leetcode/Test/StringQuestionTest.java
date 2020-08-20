@@ -17,4 +17,11 @@ public class StringQuestionTest {
         boolean IsValid = q.isValid("");
         System.out.println(IsValid);
     }
+
+    public void countSubstringTest(){
+        StringQuestion q = new StringQuestion();
+        String s = "aaa";
+        int sum = q.countSubstrings(s);
+        System.out.println(sum);
+    }
 }

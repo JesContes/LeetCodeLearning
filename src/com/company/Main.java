@@ -17,7 +17,7 @@ public class Main {
         BinaryTreeTest test = new BinaryTreeTest();
         test.BinaryTreeCreateTest(ValList);
          */
-        BinaryTreeTest Bt = new BinaryTreeTest();
-        Bt.sortedListToBSTTest();
+        StringQuestionTest st = new StringQuestionTest();
+        st.countSubstringTest();
     }
 }
