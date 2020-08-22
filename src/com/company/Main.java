@@ -1,10 +1,8 @@
 package com.company;
 
+import com.company.leetcode.Calculate;
 import com.company.leetcode.StringQuestion;
-import com.company.leetcode.Test.BinaryTreeTest;
-import com.company.leetcode.Test.GraphTest;
-import com.company.leetcode.Test.MatrixTest;
-import com.company.leetcode.Test.StringQuestionTest;
+import com.company.leetcode.Test.*;
 
 public class Main {
 
@@ -17,7 +15,7 @@ public class Main {
         BinaryTreeTest test = new BinaryTreeTest();
         test.BinaryTreeCreateTest(ValList);
          */
-        StringQuestionTest st = new StringQuestionTest();
-        st.countSubstringTest();
+        CalculateTest ct = new CalculateTest();
+        ct.judgePoint24Test();
     }
 }
