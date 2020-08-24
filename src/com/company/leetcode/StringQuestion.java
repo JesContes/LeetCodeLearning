@@ -141,4 +141,30 @@ public class StringQuestion {
         }
         return res;
     }
+
+    //459. 重复的子字符串
+    public boolean repeatedSubstringPattern(String s) {
+        boolean isRepeated = false;
+        if (s.length() == 0|| s.length() == 1){
+            return false;
+        }
+        for (int i = 1; i <= s.length()/2; i++){
+            isRepeated = true;
+            if (s.length()%i==0){
+                for (int j = i; j < s.length(); j++){
+                    if (s.charAt(j) != s.charAt(j-i)){
+                        isRepeated = false;
+                        break;
+                    }
+                }
+            }
+            else {
+                isRepeated = false;
+            }
+            if (isRepeated){
+                break;
+            }
+        }
+        return isRepeated;
+    }
 }

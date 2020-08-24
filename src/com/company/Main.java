@@ -16,6 +16,6 @@ public class Main {
         test.BinaryTreeCreateTest(ValList);
          */
         CalculateTest ct = new CalculateTest();
-        ct.judgePoint24Test();
+        ct.findLatestStepTest();
     }
 }
