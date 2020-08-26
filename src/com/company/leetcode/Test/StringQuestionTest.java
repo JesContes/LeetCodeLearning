@@ -24,4 +24,10 @@ public class StringQuestionTest {
         int sum = q.countSubstrings(s);
         System.out.println(sum);
     }
+
+    public void letterCombinationsTest(){
+        StringQuestion q = new StringQuestion();
+        String digits = "";
+        System.out.println(q.letterCombinations(digits));
+    }
 }

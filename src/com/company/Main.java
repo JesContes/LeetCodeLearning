@@ -15,7 +15,7 @@ public class Main {
         BinaryTreeTest test = new BinaryTreeTest();
         test.BinaryTreeCreateTest(ValList);
          */
-        CalculateTest ct = new CalculateTest();
-        ct.findLatestStepTest();
+        StringQuestionTest sq = new StringQuestionTest();
+        sq.letterCombinationsTest();
     }
 }

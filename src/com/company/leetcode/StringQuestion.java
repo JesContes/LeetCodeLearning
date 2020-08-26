@@ -1,5 +1,7 @@
 package com.company.leetcode;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Stack;
 
 public class StringQuestion {
@@ -11,7 +13,7 @@ public class StringQuestion {
         if (s.length() == 0){
             return 0;
         }
-        num1 = num0 = 0;
+        num1 = 0;
         BinaryCase = s.charAt(0)=='0'? '1':'0';
         for (int i = 0; i < s.length();){
             num0 = num1;
@@ -105,12 +107,7 @@ public class StringQuestion {
             }
 
         }
-        if (ParenthesesStack.empty()){
-            return true;
-        }
-        else {
-            return false;
-        }
+        return ParenthesesStack.empty();
     }
 
     //647. 回文子串
@@ -166,5 +163,39 @@ public class StringQuestion {
             }
         }
         return isRepeated;
+    }
+
+    //17. 电话号码的字母组合
+    public List<String> letterCombinations(String digits) {
+        List<String> MobileDigits = createDigitsList();
+        List<String> res = new ArrayList<>();
+        if (digits.length() > 0){
+            getNextCharacter(0, MobileDigits, "", digits, res);
+        }
+        return res;
+    }
+
+    public List<String> createDigitsList(){
+        List<String> s = new ArrayList<>();
+        s.add("abc");
+        s.add("def");
+        s.add("ghi");
+        s.add("jkl");
+        s.add("mno");
+        s.add("pqrs");
+        s.add("tuv");
+        s.add("wxyz");
+        return s;
+    }
+
+    public void getNextCharacter(int pos, List<String> MobileDigits, String SingleCombination, String digits, List<String> res){
+        if (pos == digits.length()){
+            res.add(SingleCombination);
+            return;
+        }
+        char ToAddNum = digits.charAt(pos);
+        for (int i = 0; i < MobileDigits.get(ToAddNum - '2').length(); i++){
+            getNextCharacter(pos + 1, MobileDigits, SingleCombination + MobileDigits.get(ToAddNum - '2').charAt(i), digits, res);
+        }
     }
 }
