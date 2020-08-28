@@ -198,4 +198,22 @@ public class StringQuestion {
             getNextCharacter(pos + 1, MobileDigits, SingleCombination + MobileDigits.get(ToAddNum - '2').charAt(i), digits, res);
         }
     }
+
+    //657. 机器人能否返回原点
+    public boolean judgeCircle(String moves) {
+        int YCount, XCount;
+        YCount = XCount = 0;
+        for (int i = 0; i < moves.length(); i++){
+            if (moves.charAt(i) == 'U'){
+                YCount++;
+            } else if (moves.charAt(i) == 'D'){
+                YCount--;
+            } else if (moves.charAt(i) == 'L'){
+                XCount++;
+            } else if (moves.charAt(i) == 'R'){
+                XCount--;
+            }
+        }
+        return YCount == 0 && XCount == 0;
+    }
 }
