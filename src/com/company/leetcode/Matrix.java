@@ -1,8 +1,6 @@
 package com.company.leetcode;
 
-import java.util.EventListener;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 public class Matrix {
     //130. 被围绕的区域
@@ -114,5 +112,39 @@ public class Matrix {
             }
         }
         return Sum;
+    }
+
+    //841. 钥匙和房间
+    public boolean canVisitAllRooms(List<List<Integer>> rooms) {
+        if (rooms.size() == 1){
+            return true;
+        }
+        Set<String> OpenedRooms = new HashSet<>();
+        Queue<Integer> CanBeUsedKeys = new LinkedList<>();
+        OpenedRooms.add("0");
+        for (Integer OneRoomKeys : rooms.get(0)){
+            if (!OpenedRooms.contains(OneRoomKeys.toString())){
+                OpenedRooms.add(OneRoomKeys.toString());
+                CanBeUsedKeys.add(OneRoomKeys);
+            }
+        }
+        getIntoRooms(CanBeUsedKeys, OpenedRooms, rooms);
+        return rooms.size() == OpenedRooms.size();
+    }
+
+    public void getIntoRooms(Queue<Integer> CanBeUsedKeys, Set<String> OpenedRooms, List<List<Integer>> rooms){
+        if (CanBeUsedKeys.size() == 0){
+            return;
+        }
+        while (CanBeUsedKeys.size() > 0){
+            Integer DoorPlate = CanBeUsedKeys.poll();
+            for (Integer OneRoomKeys : rooms.get(DoorPlate)){
+                if (!OpenedRooms.contains(OneRoomKeys.toString())){
+                    OpenedRooms.add(OneRoomKeys.toString());
+                    CanBeUsedKeys.add(OneRoomKeys);
+                }
+            }
+        }
+        getIntoRooms(CanBeUsedKeys, OpenedRooms, rooms);
     }
 }
