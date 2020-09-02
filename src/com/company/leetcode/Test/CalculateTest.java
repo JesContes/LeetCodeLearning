@@ -16,4 +16,10 @@ public class CalculateTest {
         int res = cal.findLatestStep(nums, m);
         System.out.println(res);
     }
+
+    public void PredictTheWinnerTest(){
+        Calculate cal = new Calculate();
+        int[] nums = new int[]{1,5,2};
+        System.out.println(cal.PredictTheWinner(nums));
+    }
 }

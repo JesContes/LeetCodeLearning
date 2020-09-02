@@ -8,10 +8,10 @@ import java.util.List;
 public class Calculate {
     //679. 24 点游戏
     public boolean judgePoint24(int[] nums) {
-        boolean flag = false;
+        boolean flag;
         List<Double> ToCalNums = new ArrayList<>();
-        for (int i = 0; i < nums.length; i++){
-            ToCalNums.add((double)nums[i]);
+        for (int num : nums) {
+            ToCalNums.add((double) num);
         }
         flag = judgePoint24All(ToCalNums);
         return flag;
@@ -22,19 +22,18 @@ public class Calculate {
             return true;
         }
         else {
-            Double temp;
+            double temp;
             boolean flag = false;
             for (int i = 0; i < ToCalNums.size() - 1 && !flag; i++) {
                 for (int j = i + 1; j < ToCalNums.size(); j++){
-                    List<Double> NextToCalNums = new ArrayList<>();
+                    List<Double> NextToCalNums = new ArrayList<>(ToCalNums);
                     //构建加法数据
-                    NextToCalNums.addAll(ToCalNums);
                     NextToCalNums.remove(i);
                     NextToCalNums.remove(j - 1);
                     temp =  PointAdd(ToCalNums.get(i), ToCalNums.get(j));
                     NextToCalNums.add(temp);
                     flag = judgePoint24All(NextToCalNums);
-                    if (flag == true){
+                    if (flag){
                         break;
                     }
                     //构建减法数据
@@ -45,7 +44,7 @@ public class Calculate {
                     temp =  PointSub(ToCalNums.get(i), ToCalNums.get(j));
                     NextToCalNums.add(temp);
                     flag = judgePoint24All(NextToCalNums);
-                    if (flag == true){
+                    if (flag){
                         break;
                     }
                     //构建减法数据，ij对调
@@ -56,7 +55,7 @@ public class Calculate {
                     temp =  PointSub(ToCalNums.get(j), ToCalNums.get(i));
                     NextToCalNums.add(temp);
                     flag = judgePoint24All(NextToCalNums);
-                    if (flag == true){
+                    if (flag){
                         break;
                     }
                     //构建乘法数据
@@ -67,7 +66,7 @@ public class Calculate {
                     temp =  PointMulty(ToCalNums.get(i), ToCalNums.get(j));
                     NextToCalNums.add(temp);
                     flag = judgePoint24All(NextToCalNums);
-                    if (flag == true){
+                    if (flag){
                         break;
                     }
                     //构建除法数据
@@ -79,7 +78,7 @@ public class Calculate {
                         temp = PointDiv(ToCalNums.get(i), ToCalNums.get(j));
                         NextToCalNums.add(temp);
                         flag = judgePoint24All(NextToCalNums);
-                        if (flag == true) {
+                        if (flag) {
                             break;
                         }
                     }
@@ -92,7 +91,7 @@ public class Calculate {
                         temp = PointDiv(ToCalNums.get(j), ToCalNums.get(i));
                         NextToCalNums.add(temp);
                         flag = judgePoint24All(NextToCalNums);
-                        if (flag == true) {
+                        if (flag) {
                             break;
                         }
                     }
@@ -134,7 +133,7 @@ public class Calculate {
                 result.add(i);
             }
         }
-        else if (StartPoint > EndPoint){
+        else {
             for (int i = 1; i <= EndPoint; i++){
                 result.add(i);
             }
@@ -182,5 +181,27 @@ public class Calculate {
             }
         }
         return res;
+    }
+
+    //486. 预测赢家
+    public boolean PredictTheWinner(int[] nums) {
+        if (nums.length == 1){
+            return true;
+        }
+        int LeftIndex = 0;
+        int RightIndex = nums.length - 1;
+        return Bonus(LeftIndex, RightIndex, nums, 1) >= 0;
+    }
+
+    public int Bonus(int LeftIndex, int RightIndex, int[] nums, int PlayerId){
+        if (LeftIndex == RightIndex){
+            return nums[LeftIndex] * PlayerId;
+        }
+        if (PlayerId == 1) {
+            return Math.max(nums[LeftIndex] * PlayerId + Bonus(LeftIndex + 1, RightIndex, nums, -PlayerId), nums[RightIndex] * PlayerId + Bonus(LeftIndex, RightIndex - 1, nums, -PlayerId));
+        }
+        else {
+            return Math.min(nums[LeftIndex] * PlayerId + Bonus(LeftIndex + 1, RightIndex, nums, -PlayerId), nums[RightIndex] * PlayerId + Bonus(LeftIndex, RightIndex - 1, nums, -PlayerId));
+        }
     }
 }
