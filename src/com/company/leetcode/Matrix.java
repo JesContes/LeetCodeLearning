@@ -147,4 +147,40 @@ public class Matrix {
         }
         getIntoRooms(CanBeUsedKeys, OpenedRooms, rooms);
     }
+
+    //51. N 皇后
+    public List<List<String>> solveNQueens(int n) {
+        Set<Integer> X = new HashSet<>();
+        Set<Integer> Front = new HashSet<>();
+        Set<Integer> Back = new HashSet<>();
+        List<List<String>> res = new ArrayList<>();
+        List<String> OneSolution = new ArrayList<>();
+        findOneLineQ(res, X, Front, Back, n, 0, OneSolution);
+        return res;
+    }
+
+    public void findOneLineQ(List<List<String>> res, Set<Integer> X, Set<Integer> Front, Set<Integer> Back, int n, int j, List<String> OneSolution){
+        if (j == n){
+            res.add(OneSolution);
+            return;
+        }
+        for (int i = 0; i < n; i++){
+            if(!X.contains(i) && !Front.contains(j+i) && !Back.contains(j - i)){
+                char[] OneLine = new char[n];
+                for (int LineIndex = 0; LineIndex < n; LineIndex++){
+                    OneLine[LineIndex] = '.';
+                }
+                OneLine[i] = 'Q';
+                List<String> OneSolutionTemp = new ArrayList<>(OneSolution);
+                OneSolutionTemp.add(new String(OneLine));
+                X.add(i);
+                Front.add(j + i);
+                Back.add(j - i);
+                findOneLineQ(res, X, Front, Back, n, j + 1, OneSolutionTemp);
+                X.remove(i);
+                Front.remove(j + i);
+                Back.remove(j - i);
+            }
+        }
+    }
 }

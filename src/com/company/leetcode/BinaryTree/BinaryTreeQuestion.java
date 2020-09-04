@@ -38,4 +38,29 @@ public class BinaryTreeQuestion {
         root.right = addChildren(mid.next, Lne);
         return root;
     }
+
+    /*257. 二叉树的所有路径
+        date: 2020-09-04
+     */
+    public List<String> binaryTreePaths(TreeNode root) {
+        List<String> res = new ArrayList<>();
+        if (root == null){
+            return res;
+        }
+        findBinaryTreePath(res, String.valueOf(root.val), root);
+        return res;
+    }
+
+    public void findBinaryTreePath(List<String> Paths, String OnePath, TreeNode Point){
+        if (Point.left == null && Point.right == null){
+            Paths.add(OnePath);
+            return;
+        }
+        if (Point.left != null) {
+            findBinaryTreePath(Paths, OnePath + "->" + Point.left.val, Point.left);
+        }
+        if (Point.right != null) {
+            findBinaryTreePath(Paths, OnePath + "->" + Point.right.val, Point.right);
+        }
+    }
 }
