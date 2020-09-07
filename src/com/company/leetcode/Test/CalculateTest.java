@@ -2,6 +2,8 @@ package com.company.leetcode.Test;
 
 import com.company.leetcode.Calculate;
 
+import java.util.Arrays;
+
 public class CalculateTest {
     public void judgePoint24Test(){
         Calculate cal = new Calculate();
@@ -21,5 +23,12 @@ public class CalculateTest {
         Calculate cal = new Calculate();
         int[] nums = new int[]{1,5,2};
         System.out.println(cal.PredictTheWinner(nums));
+    }
+
+    public void topKFrequentTest(){
+        Calculate cal = new Calculate();
+        int[] nums = new int[]{1,2};
+        int[] res = cal.topKFrequent(nums, 2);
+        System.out.println(Arrays.toString(res));
     }
 }

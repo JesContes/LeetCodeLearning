@@ -1,9 +1,7 @@
 package com.company.leetcode;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.List;
+import java.awt.print.PrinterGraphics;
+import java.util.*;
 
 public class Calculate {
     //679. 24 点游戏
@@ -203,5 +201,57 @@ public class Calculate {
         else {
             return Math.min(nums[LeftIndex] * PlayerId + Bonus(LeftIndex + 1, RightIndex, nums, -PlayerId), nums[RightIndex] * PlayerId + Bonus(LeftIndex, RightIndex - 1, nums, -PlayerId));
         }
+    }
+
+    //347. 前 K 个高频元素
+    public int[] topKFrequent(int[] nums, int k) {
+        List<Integer[]> sortList = new ArrayList<>();
+        Map<Integer, Integer> NumsTimesMap = new HashMap<>();
+        int[] topKNums = new int[k];
+        for (int num : nums) {
+            if (NumsTimesMap.containsKey(num)) {
+                NumsTimesMap.put(num, NumsTimesMap.get(num) + 1);
+            } else {
+                NumsTimesMap.put(num, 1);
+            }
+        }
+        for (Integer key : NumsTimesMap.keySet()){
+            sortList.add(new Integer[]{key, NumsTimesMap.get(key)});
+        }
+        topKQuickSort(sortList, 0, sortList.size() - 1);
+        for (int i = 0; i < k; i++){
+            topKNums[i] = sortList.get(sortList.size() - 1 - i)[0];
+        }
+        return topKNums;
+    }
+
+    public int topKQuickSort(List<Integer[]> sortList, int i, int j){
+        if (i >= j){
+            return 0;
+        }
+        int l = i;
+        int r = j;
+        Integer[] temp;
+        while (l < r){
+            while (l < r && sortList.get(r)[1] >= sortList.get(l)[1]){
+                r--;
+            }
+            if (l < r) {
+                temp = sortList.get(r);
+                sortList.set(r, sortList.get(l));
+                sortList.set(l, temp);
+            }
+            while (l < r && sortList.get(l)[1] <= sortList.get(r)[1]){
+                l++;
+            }
+            if (l < r) {
+                temp = sortList.get(r);
+                sortList.set(r, sortList.get(l));
+                sortList.set(l, temp);
+            }
+        }
+        topKQuickSort(sortList, i, l - 1);
+        topKQuickSort(sortList, l + 1, j);
+        return 1;
     }
 }
