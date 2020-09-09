@@ -254,4 +254,27 @@ public class Calculate {
         topKQuickSort(sortList, l + 1, j);
         return 1;
     }
+
+    //39. 组合总和
+    public List<List<Integer>> combinationSum(int[] candidates, int target) {
+        List<List<Integer>> AllCombinations = new ArrayList<>();
+        List<Integer> OneCombination = new ArrayList<>();
+        findOneCombinationSum(AllCombinations, candidates, target, OneCombination, 0, 0);
+        return AllCombinations;
+    }
+
+    public void findOneCombinationSum(List<List<Integer>> AllCombinations, int[] candidates, int target, List<Integer> OneCombination, int TempSum, int Index){
+        for (int i = Index; i < candidates.length; i++){
+            if (TempSum + candidates[i] == target){
+                List<Integer> NewOneCombination = new ArrayList<>(OneCombination);
+                NewOneCombination.add(candidates[i]);
+                AllCombinations.add(NewOneCombination);
+            }
+            else if (TempSum + candidates[i] < target){
+                List<Integer> NewOneCombination = new ArrayList<>(OneCombination);
+                NewOneCombination.add(candidates[i]);
+                findOneCombinationSum(AllCombinations, candidates, target, NewOneCombination, TempSum + candidates[i], i);
+            }
+        }
+    }
 }
