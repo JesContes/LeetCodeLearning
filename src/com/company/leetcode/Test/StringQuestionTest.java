@@ -30,4 +30,16 @@ public class StringQuestionTest {
         String digits = "";
         System.out.println(q.letterCombinations(digits));
     }
+
+    public void shortestPalindromeTest(){
+        StringQuestion q = new StringQuestion();
+        String s = "";
+        System.out.println(q.shortestPalindrome(s));
+    }
+
+    public void isNumberTest(){
+        StringQuestion q = new StringQuestion();
+        String s = ".1";
+        System.out.println(q.isNumber(s));
+    }
 }

@@ -1,8 +1,6 @@
 package com.company.leetcode;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Stack;
+import java.util.*;
 
 public class StringQuestion {
     //696. 计数二进制子串
@@ -215,5 +213,190 @@ public class StringQuestion {
             }
         }
         return YCount == 0 && XCount == 0;
+    }
+
+    //214. 最短回文串
+    public String shortestPalindrome(String s) {
+        if (s.length() == 0){
+            return s;
+        }
+        StringBuilder sb = new StringBuilder(s.substring(findLastIndex(s)));
+        return sb.reverse().toString() + s;
+    }
+
+    public int findLastIndex(String s){
+        boolean isPalindrome = false;
+        int MaxIndex;
+        for (MaxIndex = s.length(); MaxIndex > 0 && !isPalindrome; MaxIndex--){
+            if (s.charAt(MaxIndex - 1) == s.charAt(0)){
+                isPalindrome = checkPalindrome(s.substring(0, MaxIndex));
+            }
+        }
+        return MaxIndex + 1;
+    }
+
+    public boolean checkPalindrome(String s){
+        boolean CheckResult = true;
+        for (int i = 0, j = s.length() - 1; i < j; i++, j--){
+            if (s.charAt(i) != s.charAt(j)){
+                CheckResult = false;
+                break;
+            }
+        }
+        return CheckResult;
+    }
+
+    //剑指 Offer 20. 表示数值的字符串
+    public static final HashSet<String> Nums = new HashSet<>(){{
+        add("0");
+        add("1");
+        add("2");
+        add("3");
+        add("4");
+        add("5");
+        add("6");
+        add("7");
+        add("8");
+        add("9");
+    }};
+
+    public boolean isNumber(String s) {
+        if (s.length() == 0){
+            return false;
+        }
+        boolean res = true;
+        int pointNum = 1;
+        for (int i = 0; i < s.length(); i++){
+            if (i == 0){
+                if (s.charAt(i) == ' '){
+                    while (i < s.length() && s.charAt(i) == ' '){
+                        ++i;
+                    }
+                    if (i >= s.length()){
+                        res = false;
+                    } else if (!(s.charAt(i) == '+' || s.charAt(i) == '-')) {
+                        --i;
+                    }
+                }
+                else if (s.charAt(i) == '+' || s.charAt(i) == '-') {
+                    ++i;
+                    if (i >= s.length() || (!Nums.contains(s.substring(i, i+1)) && s.charAt(i) != '.')) {
+                        res = false;
+                        break;
+                    } else if (i < s.length() && s.charAt(i) == '.'){
+                        pointNum--;
+                    }
+                }
+                else if (s.charAt(i) == '.'){
+                    if (!(((i - 1 >= 0 && Nums.contains(s.substring(i-1, i))) || (i + 1 < s.length() && Nums.contains(s.substring(i+1, i+2)))) && pointNum > 0)){
+                        res = false;
+                        break;
+                    } else {
+                        pointNum--;
+                    }
+                }
+                else if (Nums.contains(s.substring(i, i+1))){
+                    continue;
+                }
+                else {
+                    res = false;
+                    break;
+                }
+            }
+            else if (s.charAt(i) == '.'){
+                if (!(((i - 1 >= 0 && Nums.contains(s.substring(i-1, i))) || (i + 1 < s.length() && Nums.contains(s.substring(i+1, i+2)))) && pointNum > 0)){
+                    res = false;
+                    break;
+                } else {
+                    pointNum--;
+                }
+            }
+            else if (s.charAt(i) == 'E' || s.charAt(i) == 'e'){
+                if (i - 1 < 0 || !Nums.contains(s.substring(i-1, i))){
+                    res = false;
+                    break;
+                }
+                ++i;
+                if (i >= s.length()){
+                    res = false;
+                    break;
+                }
+                else if (s.charAt(i) == '-'){
+                    ++i;
+                    if (i >= s.length()){
+                        res = false;
+                        break;
+                    }
+                    else {
+                        while(i < s.length()){
+                            if (!Nums.contains(s.substring(i, i+1))){
+                                res = false;
+                                break;
+                            }
+                            ++i;
+                        }
+                    }
+                }
+                else {
+                    while(i < s.length()){
+                        if (!Nums.contains(s.substring(i, i+1))){
+                            res = false;
+                            break;
+                        }
+                        ++i;
+                    }
+                }
+            }
+            else if (s.charAt(i) == ' '){
+                while (i < s.length() && s.charAt(i) == ' '){
+                    ++i;
+                }
+                if (i < s.length()){
+                    res = false;
+                }
+            }
+            else if (!Nums.contains(s.substring(i, i+1))){
+                res = false;
+                break;
+            }
+        }
+        return res;
+    }
+
+    public int maxLengthBetweenEqualCharacters(String s) {
+            int MaxLength = -1;
+            if (s.length() == 0){
+                return MaxLength;
+            }
+            Map<Character, Integer> CharacterCount = new HashMap<>();
+            for (int i = 0; i < s.length(); i++){
+                Character c = s.charAt(i);
+                if (!CharacterCount.containsKey(c)){
+                    CharacterCount.put(c, i);
+                }
+                else {
+                    if (MaxLength < i - CharacterCount.get(c) - 1){
+                        MaxLength = i - CharacterCount.get(c) - 1;
+                    }
+                }
+            }
+            return MaxLength;
+    }
+
+    public char slowestKey(int[] releaseTimes, String keysPressed) {
+        int MaxTime = 0;
+        char slowestKey = 'a';
+        int TempTime = 0;
+        for (int i = 0; i < releaseTimes.length; i++){
+            TempTime =  (i == 0? releaseTimes[i]:releaseTimes[i] - releaseTimes[i - 1]);
+            if (MaxTime < TempTime){
+                MaxTime = TempTime;
+                slowestKey = keysPressed.charAt(i);
+            }
+            else if (MaxTime == TempTime && keysPressed.charAt(i) > slowestKey){
+                slowestKey = keysPressed.charAt(i);
+            }
+        }
+        return slowestKey;
     }
 }

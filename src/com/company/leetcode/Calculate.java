@@ -277,4 +277,28 @@ public class Calculate {
             }
         }
     }
+
+    public List<Boolean> checkArithmeticSubarrays(int[] nums, int[] l, int[] r) {
+        int TempDiff;
+        List<Boolean> answers = new ArrayList<>(Collections.nCopies(l.length, Boolean.TRUE));
+        for (int i = 0; i < l.length; i++){
+            if (r[i] - l[i] < 2){
+                answers.set(i, Boolean.TRUE);
+                continue;
+            }
+            int[] SubArray = new int[r[i] - l[i] + 1];
+            for (int k = 0; k < SubArray.length; k++){
+                SubArray[k] = nums[l[i] + k];
+            }
+            Arrays.sort(SubArray);
+            TempDiff = SubArray[1] - SubArray[0];
+            for (int j = 1; j < SubArray.length - 1; j++){
+                if (SubArray[j+1] - SubArray[j] != TempDiff){
+                    answers.set(i, Boolean.FALSE);
+                    continue;
+                }
+            }
+        }
+        return answers;
+    }
 }

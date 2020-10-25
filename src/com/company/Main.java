@@ -1,6 +1,7 @@
 package com.company;
 
 import com.company.leetcode.Calculate;
+import com.company.leetcode.Matrix;
 import com.company.leetcode.StringQuestion;
 import com.company.leetcode.Test.*;
 
@@ -15,7 +16,7 @@ public class Main {
         BinaryTreeTest test = new BinaryTreeTest();
         test.BinaryTreeCreateTest(ValList);
          */
-        StringQuestionTest sq = new StringQuestionTest();
-        sq.letterCombinationsTest();
+        MatrixTest mt = new MatrixTest();
+        mt.minimumEffortPathTest();
     }
 }

@@ -183,4 +183,35 @@ public class Matrix {
             }
         }
     }
+
+    public int minimumEffortPath(int[][] heights) {
+        List<Integer> PassedPoint = new ArrayList<>();
+        int StrengthConsume = -1;
+        return findEveryPath(StrengthConsume, PassedPoint, 0, 0, heights.length, heights[0].length, heights);
+    }
+
+    public int findEveryPath(int TempConsume, List<Integer> PassedPoint, int NowRow, int NowCol, int Row, int Col, int[][] heights){
+        if (PassedPoint.size() > 0 && Math.abs(heights[NowRow][NowCol] - heights[PassedPoint.get(PassedPoint.size() - 1)/1000][PassedPoint.get(PassedPoint.size() - 1)%1000]) > TempConsume){
+            TempConsume = Math.abs(heights[NowRow][NowCol] - heights[PassedPoint.get(PassedPoint.size() - 1)/1000][PassedPoint.get(PassedPoint.size() - 1)%1000]);
+        }
+
+        PassedPoint.add(NowRow*1000+NowCol);
+        if (NowRow == Row - 1 && NowCol == Col - 1){
+            return TempConsume;
+        }
+        int res = Integer.MAX_VALUE;
+        if (NowRow - 1 >= 0 && !PassedPoint.contains((NowRow-1)*1000+NowCol)){
+            res = Math.min(res, findEveryPath(TempConsume, new ArrayList<>(PassedPoint), NowRow - 1, NowCol, Row, Col, heights));
+        }
+        if (NowRow + 1 <= Row - 1 && !PassedPoint.contains((NowRow+1)*1000+NowCol)){
+            res = Math.min(res, findEveryPath(TempConsume, new ArrayList<>(PassedPoint), NowRow + 1, NowCol, Row, Col, heights));
+        }
+        if (NowCol - 1 >= 0 && !PassedPoint.contains(NowRow*1000+NowCol-1)){
+            res = Math.min(res, findEveryPath(TempConsume, new ArrayList<>(PassedPoint), NowRow, NowCol - 1, Row, Col, heights));
+        }
+        if (NowCol + 1 <= Col - 1 && !PassedPoint.contains(NowRow*1000+NowCol+1)){
+            res = Math.min(res, findEveryPath(TempConsume, new ArrayList<>(PassedPoint), NowRow, NowCol + 1, Row, Col, heights));
+        }
+        return res;
+    }
 }
