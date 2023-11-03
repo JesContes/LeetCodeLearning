@@ -1,6 +1,8 @@
 package com.company.leetcode.Test;
 
 import com.company.leetcode.Calculate;
+import org.junit.Assert;
+import org.junit.Test;
 
 import java.util.Arrays;
 import java.util.List;
@@ -40,5 +42,12 @@ public class CalculateTest {
         Calculate cal = new Calculate();
         List<Boolean> answers = cal.checkArithmeticSubarrays(nums, l, r);
         System.out.println(answers.toString());
+    }
+
+    @Test
+    public void subarraysDivByKTest() {
+        int[] nums = new int[]{7,-5,5,-8,-6,6,-4,7,-8,-7};
+        Calculate cal = new Calculate();
+        Assert.assertEquals(11, cal.subarraysDivByK(nums, 7));
     }
 }

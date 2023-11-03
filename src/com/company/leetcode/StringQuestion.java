@@ -27,63 +27,6 @@ public class StringQuestion {
         return sum;
     }
 
-    //43. 字符串相乘
-    public String multiply(String num1, String num2) {
-        String MultiplyRes = "";
-        if (num1.equals("0") || num2.equals("0")){
-            return "0";
-        }
-        for (int i = 0; i < num2.length(); i++){
-            MultiplyRes += "0";
-            MultiplyRes = stringadd(multiplyOne(num1, num2.charAt(i)), MultiplyRes);
-        }
-        return MultiplyRes;
-    }
-
-    public String multiplyOne(String num1, char divisor){
-        if (divisor == '0'){
-            return "0";
-        }
-        int Tens = 0;
-        String MultiRes = "";
-        int DivisorInt = divisor - '0';
-        for(int dividendIndex = num1.length() - 1; dividendIndex >= 0; dividendIndex--){
-            int TempMultiRes = (num1.charAt(dividendIndex) - '0')*DivisorInt + Tens;
-            MultiRes = TempMultiRes%10 + MultiRes;
-            Tens = TempMultiRes/10;
-        }
-        if (Tens > 0){
-            MultiRes = Tens + MultiRes;
-        }
-        return MultiRes;
-    }
-
-    public String stringadd(String num1, String num2){
-        int Tens = 0;
-        String AddRes = "";
-        int TempRes;
-        int AddIndex1, AddIndex2;
-        for (AddIndex1 = num1.length() - 1, AddIndex2 = num2.length() - 1; AddIndex1 >= 0 && AddIndex2 >= 0; AddIndex1--, AddIndex2--){
-            TempRes = (num1.charAt(AddIndex1) - '0') + (num2.charAt(AddIndex2) - '0') + Tens;
-            AddRes = TempRes%10 + AddRes;
-            Tens = TempRes/10;
-        }
-        for (;AddIndex1 >= 0; AddIndex1--){
-            TempRes = (num1.charAt(AddIndex1) - '0') + Tens;
-            AddRes = TempRes%10 + AddRes;
-            Tens = TempRes/10;
-        }
-        for (;AddIndex2 >= 0; AddIndex2--){
-            TempRes = (num2.charAt(AddIndex2) - '0') + Tens;
-            AddRes = TempRes%10 + AddRes;
-            Tens = TempRes/10;
-        }
-        if (Tens > 0){
-            AddRes = Tens + AddRes;
-        }
-        return AddRes;
-    }
-
     //20. 有效的括号
     public boolean isValid(String s) {
         Stack<Character> ParenthesesStack = new Stack<>();
@@ -247,7 +190,7 @@ public class StringQuestion {
     }
 
     //剑指 Offer 20. 表示数值的字符串
-    public static final HashSet<String> Nums = new HashSet<>(){{
+    public static final HashSet<String> Nums = new HashSet<String>(){{
         add("0");
         add("1");
         add("2");
@@ -398,5 +341,105 @@ public class StringQuestion {
             }
         }
         return slowestKey;
+    }
+
+    public int lengthOfLongestSubstring(String s) {
+        int leftBorder = 0;
+        int rightBorder = 0;
+        int maxLength = 0;
+        for (int index = 1; index < s.length(); index++) {
+            if (s.substring(leftBorder, index).indexOf(s.charAt(index)) != -1) {
+                maxLength = Math.max(maxLength, index - leftBorder);
+                leftBorder = s.substring(leftBorder, index).indexOf(s.charAt(index)) + 1 + leftBorder;
+            }
+        }
+        maxLength = Math.max(maxLength, s.length() - leftBorder);
+        return maxLength;
+    }
+
+    // 93
+    private static final int IP_SEQ_NUM = 4;
+    private static final int ONE_SEQ_MAX_LEN = 3;
+    private static final int MAX_IP_NUM = 255;
+
+    public List<String> restoreIpAddresses(String s) {
+        List<String> result = new ArrayList<>();
+        addIpAddress("", result, s);
+        return result;
+    }
+
+    private void addIpAddress(String tempIpAddress, List<String> addressList, String source) {
+        String[] tempIpAddressList = tempIpAddress.split("\\.");
+        if (tempIpAddressList.length == IP_SEQ_NUM) {
+            if ("".equals(source)) {
+                addressList.add(String.join(".", tempIpAddress));
+            }
+            return;
+        }
+        if (tempIpAddressList.length < IP_SEQ_NUM && "".equals(source)) {
+            return;
+        }
+        String tempSource = "";
+        String ipZero = "0";
+        if (source.startsWith(ipZero)) {
+            tempSource = source.substring(1);
+            addIpAddress(tempIpAddress + ".0", addressList, tempSource);
+        } else {
+            for (int tempLength = 1; tempLength <= ONE_SEQ_MAX_LEN && tempLength <= source.length(); tempLength++) {
+                String onePartAddress = source.substring(0, tempLength);
+                if (tempLength == ONE_SEQ_MAX_LEN && Integer.parseInt(onePartAddress) > MAX_IP_NUM) {
+                    return;
+                }
+                tempSource = source.substring(tempLength);
+                String nextIpAddress = "".equals(tempIpAddress) ? onePartAddress : tempIpAddress + "." + onePartAddress;
+                addIpAddress(nextIpAddress, addressList, tempSource);
+            }
+        }
+    }
+
+    // 43
+    public String multiply(String num1, String num2) {
+        List<String> everyPositionPlus = new ArrayList<>();
+        char zeroBorder = '0';
+        String result = "";
+        StringBuilder topZeroSuffix = new StringBuilder();
+        for (int i = num1.length() - 1; i >= 0; i--) {
+            char toPlus = num1.charAt(i);
+            String plusOne = "";
+            StringBuilder zeroSuffix = new StringBuilder();
+            for (int j = num2.length() - 1; j >= 0; j--) {
+                char toBePlus = num2.charAt(j);
+                int twoSingleNumResult = (toBePlus - zeroBorder) * (toPlus - zeroBorder);
+                plusOne = add(String.valueOf(twoSingleNumResult) + zeroSuffix, plusOne);
+                zeroSuffix.append("0");
+            }
+            result = add(plusOne + topZeroSuffix, result);
+            topZeroSuffix.append("0");
+        }
+        return result;
+    }
+
+    private String add(String num1, String num2) {
+        StringBuilder result = new StringBuilder();
+        int toBeAdded = 0;
+        int i = num1.length() - 1;
+        int j = num2.length() - 1;
+        for (; i >= 0 || j >= 0; i--, j--) {
+            int num1ToBeAdded = 0;
+            int num2ToBeAdded = 0;
+            if (i >= 0) {
+                num1ToBeAdded = num1.charAt(i) - '0';
+            }
+            if (j >= 0) {
+                num2ToBeAdded = num2.charAt(j) - '0';
+            }
+            int addOneResult = num1ToBeAdded + num2ToBeAdded;
+            result.insert(0, String.valueOf((addOneResult + toBeAdded) % 10));
+            toBeAdded = (addOneResult + toBeAdded) / 10;
+        }
+        if (toBeAdded > 0) {
+            result.insert(0, String.valueOf(toBeAdded));
+        }
+        return result.toString();
     }
 }

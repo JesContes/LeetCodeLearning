@@ -22,7 +22,7 @@ public class MatrixTest {
 
     public void minimumEffortPathTest(){
         Matrix Mx = new Matrix();
-        int[][] heights  = new int[][]{{1,2,3},{3,8,4},{5,3,5}};
+        int[][] heights  = new int[][]{{1,2,3},{3,8,2},{5,3,5}};
         System.out.println(Mx.minimumEffortPath(heights));
     }
 }

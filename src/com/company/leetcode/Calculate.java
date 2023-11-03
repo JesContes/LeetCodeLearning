@@ -301,4 +301,33 @@ public class Calculate {
         }
         return answers;
     }
+
+    // 974
+    public int subarraysDivByK(int[] nums, int k) {
+        Map<Integer, Integer> preSumsRemainders = new HashMap<>();
+        preSumsRemainders.put(0, 1);
+        int sum = 0;
+        int result = 0;
+        for (int num : nums) {
+            sum += num;
+            int compNum;
+            if (sum % k < 0) {
+                compNum = sum % k + k;
+            } else {
+                compNum = sum % k - k;
+            }
+            if (preSumsRemainders.containsKey(compNum)) {
+                int subArrayNum = preSumsRemainders.get(compNum);
+                result += subArrayNum;
+            }
+            if (preSumsRemainders.containsKey(sum % k)) {
+                int subArrayNum = preSumsRemainders.get(sum % k);
+                result += subArrayNum;
+                preSumsRemainders.put(sum % k, subArrayNum + 1);
+            } else {
+                preSumsRemainders.put(sum % k, 1);
+            }
+        }
+        return result;
+    }
 }

@@ -186,11 +186,17 @@ public class Matrix {
 
     public int minimumEffortPath(int[][] heights) {
         List<Integer> PassedPoint = new ArrayList<>();
-        int StrengthConsume = -1;
+        int StrengthConsume = 0;
         return findEveryPath(StrengthConsume, PassedPoint, 0, 0, heights.length, heights[0].length, heights);
     }
 
     public int findEveryPath(int TempConsume, List<Integer> PassedPoint, int NowRow, int NowCol, int Row, int Col, int[][] heights){
+//        if (NowRow == 2 && NowCol == 2){
+//            System.out.println(heights[NowRow][NowCol]);
+//            System.out.println(PassedPoint.get(PassedPoint.size() - 1)/1000);
+//            System.out.println(PassedPoint.get(PassedPoint.size() - 1)%1000);
+//            System.out.println(heights[PassedPoint.get(PassedPoint.size() - 1)/1000][PassedPoint.get(PassedPoint.size() - 1)%1000]);
+//        }
         if (PassedPoint.size() > 0 && Math.abs(heights[NowRow][NowCol] - heights[PassedPoint.get(PassedPoint.size() - 1)/1000][PassedPoint.get(PassedPoint.size() - 1)%1000]) > TempConsume){
             TempConsume = Math.abs(heights[NowRow][NowCol] - heights[PassedPoint.get(PassedPoint.size() - 1)/1000][PassedPoint.get(PassedPoint.size() - 1)%1000]);
         }
