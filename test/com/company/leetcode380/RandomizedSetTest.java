@@ -2,8 +2,6 @@ package com.company.leetcode380;
 
 import org.junit.Test;
 
-import static org.junit.Assert.*;
-
 public class RandomizedSetTest {
     @Test
     public void randomizedSetTest1() {
