@@ -1,7 +1,7 @@
 package com.company.leetcode.BinaryTree;
 
 public class ListNode {
-    int val;
+    public int val;
     public ListNode next;
     ListNode() {}
     public ListNode(int val) { this.val = val; }
