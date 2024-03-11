@@ -1,4 +1,4 @@
-package leetcode1696;
+package com.company.leetcode1696;
 
 import java.util.TreeMap;
 

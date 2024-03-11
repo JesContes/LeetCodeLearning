@@ -1,5 +1,6 @@
 package leetcode1696;
 
+import com.company.leetcode1696.Solution;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
